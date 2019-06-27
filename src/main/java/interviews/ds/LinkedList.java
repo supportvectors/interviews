@@ -37,10 +37,10 @@ public class LinkedList {
 
     }
 
-    public boolean delete(final int index) {
+    public Optional<Integer> delete(final int index) {
         if (index < 0 || this.size() <= index)
             // List is too short, and index is not a valid location
-            return false;
+            return Optional.empty();
 
         if (index == 0)
             return this.deleteFirst();
@@ -54,17 +54,19 @@ public class LinkedList {
         }
 
         // Now do the deleting.
-        final Node tmp = current.next;
+        final Node        tmp   = current.next;
+        Optional<Integer> value = Optional.of(tmp.value);
         current.next = tmp.next;
         tmp.next     = null;    // Leave node to be garbage-collected.
-        return true;
+        return value;
     }
 
-    public boolean deleteFirst() {
+    public Optional<Integer> deleteFirst() {
         if (this.isEmpty())
-            return false;
+            return Optional.empty();
+        Optional<Integer> value = Optional.of(this.head.value);
         this.head = this.head.next;
-        return true;
+        return value;
     }
 
     public boolean deleteIfExists(final int value) {
@@ -375,11 +377,11 @@ public class LinkedList {
     @Override
     public String toString() {
         final StringBuilder builder  = new StringBuilder();
-        final String        template = "%s ";
+        final String        template = "%5s: %s %n";
         Node                current  = this.head;
         int                 i        = 0;
         while (current != null) {
-            builder.append(String.format(template, current.value));
+            builder.append(String.format(template, i, current.value));
             current = current.next;
             i++;
         }

@@ -36,7 +36,7 @@ public class LinkedListTest {
         System.out.printf("After deleting: %n%s%n", list);
 
         // Negative test case:
-        deleted = list.delete(223);
+        deleted = list.deleteIfExists(223);
         Assert.assertFalse(deleted);
     }
 
@@ -208,12 +208,12 @@ public class LinkedListTest {
               .forEach(value -> list.append(value));
 
         // check that it handles the bad input well.
-        boolean deleted = list.delete(100);
-        Assert.assertFalse(deleted);
+        Optional<Integer> deleted = list.delete(100);
+        Assert.assertTrue(deleted.isEmpty());
 
         // test for the end corner case.
         deleted = list.delete(VALUES.length);
-        Assert.assertFalse(deleted);
+        Assert.assertTrue(deleted.isEmpty());
 
         // finally, test a positive test case.
         System.out.printf("Before deleting: %n%s%n", list);
