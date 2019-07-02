@@ -32,30 +32,32 @@ public class LinkedList {
             }
             // Now, append to it.
             current.next = node;
-
         } // else
-
     }
 
     public Optional<Integer> delete(final int index) {
-        if (index < 0 || this.size() <= index)
-            // List is too short, and index is not a valid location
+        if (index < 0)
+            // List index is not a valid location
             return Optional.empty();
 
+        // Handle the head-case.
         if (index == 0)
             return this.deleteFirst();
 
         int  idx     = 0;
         Node current = this.head;
 
-        while (idx < index - 1) {
+        while (idx < index - 1 && current != null) {
             current = current.next;
             idx++;
         }
 
+        if (current == null)
+            return Optional.empty(); // List too short
+
         // Now do the deleting.
-        final Node        tmp   = current.next;
-        Optional<Integer> value = Optional.of(tmp.value);
+        final Node              tmp   = current.next;
+        final Optional<Integer> value = Optional.of(tmp.value);
         current.next = tmp.next;
         tmp.next     = null;    // Leave node to be garbage-collected.
         return value;
@@ -64,7 +66,7 @@ public class LinkedList {
     public Optional<Integer> deleteFirst() {
         if (this.isEmpty())
             return Optional.empty();
-        Optional<Integer> value = Optional.of(this.head.value);
+        final Optional<Integer> value = Optional.of(this.head.value);
         this.head = this.head.next;
         return value;
     }
@@ -73,13 +75,8 @@ public class LinkedList {
         if (this.isEmpty())
             return false;
 
-        boolean found = false;
-        if (this.head.value == value) {
-            found = true;
-            this.deleteFirst();
-        }
-
-        Node current = this.head;
+        boolean found   = false;
+        Node    current = this.head;
 
         while (current.next != null) {
             if (current.next.value == value) {
@@ -93,7 +90,38 @@ public class LinkedList {
             }
         }
 
+        // If the first element itself was the value, handle this special
+        // case since it was ignored.
+
+        if (this.head.value == value) {
+            found = true;
+            this.deleteFirst();
+
+        }
+
         return found;
+    }
+
+    public Optional<Integer> deleteKth(final int k) {
+        if (this.size() < k - 1)
+            return Optional.empty();
+
+        if (k == 0)
+            return this.first();
+
+        int  idx      = 0;
+        Node previous = this.head;
+
+        while (idx < k - 1) {
+            previous = previous.next;
+            idx++;
+        }
+
+        // Remove and return.
+        final Node kth = previous.next;
+        previous.next = kth.next;
+        return Optional.of(kth.value);
+
     }
 
     /**
@@ -111,7 +139,6 @@ public class LinkedList {
         Node rabbit = this.head;
 
         int  steps  = 0;
-
         // First let the rabbit hit the end, and the turtle follow.
         while (rabbit.next != null) {
             rabbit = rabbit.next;
@@ -126,7 +153,6 @@ public class LinkedList {
         }
 
         // Special case: if we are at the beginning, and the turtle never moved
-
         if (turtle == null) {
             final Optional<Integer> value = Optional.of(this.head.value);
             this.head = this.head.next;
@@ -334,25 +360,33 @@ public class LinkedList {
 
     }
 
-    public Optional<Integer> deleteKth(final int k) {
-        if (this.size() < k - 1)
-            return Optional.empty();
+    /**
+     * Reverse this list.
+     */
+    public void reverse() {
 
-        if (k == 0)
-            return this.first();
+        // For empty or single element lists,
+        // no reversing is needed.
+        if (this.isEmpty() || this.head.next == null)
+            return;
 
-        int  idx      = 0;
-        Node previous = this.head;
+        Node turtle = null;      // The turtle starts null.
+        Node rabbit = this.head; // rabbit sits on the first node.
 
-        while (idx < k - 1) {
-            previous = previous.next;
-            idx++;
-        }
+        // Move forward each step, and turns the arrows backward
+        while (rabbit != null) {
 
-        // Remove and return.
-        final Node kth = previous.next;
-        previous.next = kth.next;
-        return Optional.of(kth.value);
+            // let's make the rabbit turn around and
+            // point back at the turtle
+            final Node next = rabbit.next; // save the next node
+            rabbit.next = turtle;
+
+            // now, move forward
+            turtle      = rabbit; // turtle now meet rabbit
+            rabbit      = next;   // rabbit hops ahead
+        } // while
+
+        this.head = turtle;
 
     }
 

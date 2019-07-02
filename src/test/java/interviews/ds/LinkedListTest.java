@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 public class LinkedListTest {
 
-    private static final int[] VALUES = { 10, 30, 12, 11, 17, 10, 10, 19, 10, 23, 7, 5, 10 };
+    public static final int[] VALUES = { 10, 30, 12, 11, 17, 10, 10, 19, 10, 23, 7, 5, 10 };
 
     @BeforeAll
     static public void setUpBeforeClass() throws Exception {
@@ -27,6 +27,24 @@ public class LinkedListTest {
         System.out.println(" DELETE IF EXISTS FOR 10 TEST ");
         final LinkedList list = new LinkedList();
         Arrays.stream(LinkedListTest.VALUES)
+              .forEach(value -> list.append(value));
+
+        // finally, test a positive test case.
+        System.out.printf("Before deleting: %n%s%n", list);
+        boolean deleted = list.deleteIfExists(10);
+        Assert.assertTrue(deleted);
+        System.out.printf("After deleting: %n%s%n", list);
+
+        // Negative test case:
+        deleted = list.deleteIfExists(223);
+        Assert.assertFalse(deleted);
+    }
+
+    @Test
+    public void testDeleteIfExistsWithAllSame() {
+        System.out.println(" DELETE IF EXISTS WITH UNIFORM ");
+        final LinkedList list = new LinkedList();
+        Arrays.stream(new int[] { 10, 10, 10, 10, 10 })
               .forEach(value -> list.append(value));
 
         // finally, test a positive test case.
@@ -244,5 +262,16 @@ public class LinkedListTest {
         inserted = list.insertAtLocation(0, 200);
         System.out.printf("After head insert: %s%n", list);
 
+    }
+
+    @Test
+    public void testReverse() {
+        System.out.println(" REVERSE LIST TEST ");
+        final LinkedList list = new LinkedList();
+        Arrays.stream(LinkedListTest.VALUES)
+              .forEach(value -> list.append(value));
+        System.out.printf("Original list: %s%n", list);
+        list.reverse();
+        System.out.printf("After reversing: %s%n", list);
     }
 }
