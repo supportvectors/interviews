@@ -9,35 +9,33 @@ package interviews.ds;
  */
 public final class NextGreaterNode {
 
-    public static LinkedList nextGreaterNode(final LinkedList list) {
-        // Nothing to do if the list is either empty or had only one element
+    public static LinkedList oSquared(final LinkedList list) {
         if (list.head == null || list.head.next == null)
             return list;
         final LinkedList nextGreater = new LinkedList();
-
+        //
         // Let's bring in our turtle and the rabbit
 
         Node             turtle      = list.head;
-        Node             rabbit      = list.head;
+        while (turtle.next != null) {
 
-        while (rabbit != null && turtle != null) {
+            Node    rabbit = turtle.next;
+            boolean found  = false;
+            while (rabbit != null) {
+                if (rabbit.value > turtle.value) {
+                    nextGreater.append(rabbit.value);
+                    found = true;
+                    break;
+                }
+                rabbit = rabbit.next;
 
-            if (rabbit.value <= turtle.value) {
-                rabbit = rabbit.next; // rabbit keeps hopping ahead.
-                continue;
             }
-            // Let the turtle catch up with the rabbit
-            while (turtle.value != rabbit.value) {
-                nextGreater.append(rabbit.value);
-                turtle = turtle.next;
-            }
-
-        }
-        // Now, the turtle may still not be at the end.
-        while (turtle != null) {
-            nextGreater.append(-1);
+            // if we reached here, no greater value!
+            if (!found)
+                nextGreater.append(0);
             turtle = turtle.next;
         }
+        nextGreater.append(0);
         return nextGreater;
     }
 

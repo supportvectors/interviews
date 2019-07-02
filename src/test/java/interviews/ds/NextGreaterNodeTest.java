@@ -7,15 +7,26 @@ import org.junit.jupiter.api.Test;
 class NextGreaterNodeTest {
 
     @Test
-    void test() {
+    void testOSquared() {
         System.out.println(" NEXT GREATER TEST ");
         final LinkedList list = new LinkedList();
-        Arrays.stream(new int[] { 1, 4, 2, 3, 5, 2, 3, 6, 8, 9, 10, 1, 2, 3, 4, 12 })
+        Arrays.stream(new int[] { 1, 7, 5, 1, 9, 2, 5, 1 })
               .forEach(value -> list.append(value));
         System.out.printf("Original List: %n%s%n", list);
-        LinkedList greaterNodeList = NextGreaterNode.nextGreaterNode(list);
+        LinkedList greaterNodeList = NextGreaterNode.oSquared(list);
 
         System.out.printf("Greater Node List: %n%s%n", greaterNodeList);
     }
 
+    @Test
+    void testMethod2() {
+        System.out.println(" NEXT GREATER TEST ");
+        final LinkedList list = new LinkedList();
+        Arrays.stream(new int[] { 1, 7, 5, 1, 9, 2, 5, 1 })
+              .forEach(value -> list.append(value));
+        System.out.printf("Original List: %n%s%n", list);
+        LinkedList greaterNodeList = NextGreaterNode.method2(list);
+
+        System.out.printf("Greater Node List: %n%s%n", greaterNodeList);
+    }
 }
