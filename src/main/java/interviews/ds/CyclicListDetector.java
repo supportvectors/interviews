@@ -10,7 +10,7 @@ package interviews.ds;
  */
 public final class CyclicListDetector {
 
-    public static boolean delectCycle(final Node aNode) {
+    public static boolean detectCycle(final Node aNode) {
 
         if (aNode.next == null)
             return false;

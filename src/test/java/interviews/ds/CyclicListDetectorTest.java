@@ -32,7 +32,7 @@ class CyclicListDetectorTest {
         // Now, see if we can detect the cycle for the positive case.
         System.out.println("DETECTING CYCLE IN POSITIVE CASE");
 
-        final boolean isCyclic = CyclicListDetector.delectCycle(_1);
+        final boolean isCyclic = CyclicListDetector.detectCycle(_1);
 
         Assert.assertTrue("Failed to detect the cycle", isCyclic);
         System.out.println("Was there a cycle? " + isCyclic);
@@ -46,7 +46,7 @@ class CyclicListDetectorTest {
         // Now, see if we can detect the cycle for the positive case.
         System.out.println("DETECTING CYCLE IN DEGENERATE CASE 1");
 
-        final boolean isCyclic = CyclicListDetector.delectCycle(_1);
+        final boolean isCyclic = CyclicListDetector.detectCycle(_1);
 
         Assert.assertTrue("Failed to detect the cycle in degenerate case", isCyclic);
         System.out.println("Was there a cycle? " + isCyclic);
@@ -58,7 +58,7 @@ class CyclicListDetectorTest {
         final LinkedList list = new LinkedList();
         Arrays.stream(LinkedListTest.VALUES)
               .forEach(value -> list.append(value));
-        final boolean isCyclic = CyclicListDetector.delectCycle(list.head);
+        final boolean isCyclic = CyclicListDetector.detectCycle(list.head);
         Assert.assertFalse("This list is not cyclic!", isCyclic);
         System.out.println("Was there a cycle? " + isCyclic);
     }
